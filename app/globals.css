@@ -1,0 +1,90 @@
+@import "tailwindcss";
+
+:root {
+  --mb-burgundy: #7B1E1E;
+  --mb-burgundy-light: #9B2E2E;
+  --mb-burgundy-dark: #5A1515;
+  --mb-cream: #F5F0E8;
+  --mb-cream-dark: #EDE5D4;
+  --mb-gold: #C4973A;
+  --mb-gold-light: #D4A94A;
+  --mb-charcoal: #1A1A1A;
+  --mb-gray: #6B6B6B;
+  --mb-light-gray: #F0EDE8;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background-color: var(--mb-cream);
+  color: var(--mb-charcoal);
+  font-family: 'Noto Serif KR', 'Georgia', serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(24px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes lineExpand {
+  from { width: 0; }
+  to { width: 100%; }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.animate-fade-up {
+  animation: fadeUp 0.7s ease forwards;
+}
+
+.animate-delay-1 { animation-delay: 0.1s; opacity: 0; }
+.animate-delay-2 { animation-delay: 0.25s; opacity: 0; }
+.animate-delay-3 { animation-delay: 0.4s; opacity: 0; }
+.animate-delay-4 { animation-delay: 0.55s; opacity: 0; }
+
+.line-expand {
+  animation: lineExpand 0.8s ease forwards;
+}
+
+.prose-custom h3 {
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin-top: 1.5rem;
+  margin-bottom: 0.5rem;
+  color: var(--mb-burgundy);
+}
+
+.prose-custom p {
+  margin-bottom: 0.75rem;
+  line-height: 1.75;
+}
+
+.prose-custom ul {
+  list-style: none;
+  padding: 0;
+}
+
+.prose-custom ul li {
+  padding-left: 1.25rem;
+  position: relative;
+  margin-bottom: 0.4rem;
+  line-height: 1.7;
+}
+
+.prose-custom ul li::before {
+  content: '·';
+  position: absolute;
+  left: 0;
+  color: var(--mb-gold);
+  font-weight: bold;
+  font-size: 1.2rem;
+  line-height: 1.5;
+}
