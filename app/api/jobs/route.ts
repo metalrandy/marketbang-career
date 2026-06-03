@@ -1,37 +1,36 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { Redis } from '@upstash/redis';
 import { Job, defaultJobs } from '@/lib/jobs';
-import fs from 'fs';
-import path from 'path';
 
-const DATA_FILE = path.join(process.cwd(), 'data', 'jobs.json');
+const redis = new Redis({
+  url: process.env.KV_REST_API_URL!,
+  token: process.env.KV_REST_API_TOKEN!,
+});
 
-function ensureDataDir() {
-  const dir = path.dirname(DATA_FILE);
-  if (!fs.existsSync(dir)) fs.mkdirSync(dir, { recursive: true });
-}
+const JOBS_KEY = 'marketbang:jobs';
 
-function readJobs(): Job[] {
+async function readJobs(): Promise<Job[]> {
   try {
-    if (!fs.existsSync(DATA_FILE)) return defaultJobs;
-    return JSON.parse(fs.readFileSync(DATA_FILE, 'utf-8'));
+    const data = await redis.get<Job[]>(JOBS_KEY);
+    if (!data || data.length === 0) return defaultJobs;
+    return data;
   } catch {
     return defaultJobs;
   }
 }
 
-function writeJobs(jobs: Job[]) {
-  ensureDataDir();
-  fs.writeFileSync(DATA_FILE, JSON.stringify(jobs, null, 2));
+async function writeJobs(jobs: Job[]) {
+  await redis.set(JOBS_KEY, jobs);
 }
 
 export async function GET() {
-  const jobs = readJobs();
+  const jobs = await readJobs();
   return NextResponse.json(jobs);
 }
 
 export async function POST(req: NextRequest) {
   const body = await req.json();
-  const jobs = readJobs();
+  const jobs = await readJobs();
   const newJob: Job = {
     ...body,
     id: `job-${Date.now()}`,
@@ -39,6 +38,6 @@ export async function POST(req: NextRequest) {
     updatedAt: new Date().toISOString(),
   };
   jobs.push(newJob);
-  writeJobs(jobs);
+  await writeJobs(jobs);
   return NextResponse.json(newJob);
 }
