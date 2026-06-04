@@ -22,8 +22,14 @@
 body {
   background-color: var(--mb-cream);
   color: var(--mb-charcoal);
-  font-family: 'Noto Serif KR', 'Georgia', serif;
+  font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+  font-weight: 400;
   -webkit-font-smoothing: antialiased;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+  font-weight: 700;
 }
 
 @keyframes fadeUp {
@@ -56,7 +62,7 @@ body {
 
 .prose-custom h3 {
   font-size: 1.1rem;
-  font-weight: 600;
+  font-weight: 700;
   margin-top: 1.5rem;
   margin-bottom: 0.5rem;
   color: var(--mb-burgundy);
